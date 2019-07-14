@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/jtviegas/store-functions.svg?branch=master)](https://travis-ci.org/jtviegas/store-functions)
+[![Coverage Status](https://coveralls.io/repos/github/jtviegas/store-functions/badge.svg?branch=master)](https://coveralls.io/github/jtviegas/store-functions?branch=master)
+
 # store-functions
 functions for a data store api
 
