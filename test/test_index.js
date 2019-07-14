@@ -19,7 +19,7 @@ describe('index tests', function() {
     before(function(done) {
         logger.info("[before|in]");
         store.init({ apiVersion: config.DB_API_VERSION , region: config.DB_API_REGION
-            , endpoint: config.DB_ENDPOINT, accessKeyId: process.env.ACCESS_KEY_ID , secretAccessKey: process.env.ACCESS_KEY } );
+            , endpoint: config.DB_ENDPOINT, accessKeyId: process.env.DB_API_ACCESS_KEY_ID , secretAccessKey: process.env.DB_API_ACCESS_KEY } );
 
         let items = [];
         let i = 0;
