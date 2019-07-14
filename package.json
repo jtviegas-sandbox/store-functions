@@ -1,0 +1,35 @@
+{
+  "name": "@jtviegas/store-functions",
+  "version": "0.0.1",
+  "description": "functions for a data store api",
+  "main": "index.js",
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha --reporter spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jtviegas/store-functions.git"
+  },
+  "keywords": [
+    "lambda",
+    "nodejs"
+  ],
+  "author": "Joao Tiago Viegas <jtviegas.js@gmail.com>",
+  "license": "Unlicense",
+  "bugs": {
+    "url": "https://github.com/jtviegas/store-functions/issues"
+  },
+  "homepage": "https://github.com/jtviegas/store-functions#readme",
+  "engines": {
+    "node": ">=4.2.4"
+  },
+  "dependencies": {
+    "@jtviegas/dyndbstore": "^1.0.5",
+    "winston": "^3.2.1"
+  },
+  "devDependencies": {
+    "aws-sdk": "^2.493.0",
+    "chai": "^4.2.0",
+    "mocha": "^6.1.4"
+  }
+}
