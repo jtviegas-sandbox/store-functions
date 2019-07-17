@@ -8,8 +8,13 @@ const service_module = (config) => {
     logger.info("...initializing service module...");
     const common = require("./common")(config);
 
-    store.init({ apiVersion: config.DB_API_VERSION , region: config.DB_API_REGION , endpoint: config.DB_ENDPOINT
-        , accessKeyId: config.DB_API_ACCESS_KEY_ID , secretAccessKey: config.DB_API_ACCESS_KEY } );
+    let storeConfig = { apiVersion: config.DB_API_VERSION , region: config.DB_API_REGION
+        , accessKeyId: config.DB_API_ACCESS_KEY_ID , secretAccessKey: config.DB_API_ACCESS_KEY };
+
+    if( config.DB_ENDPOINT )
+        storeConfig['endpoint'] = config.DB_ENDPOINT;
+
+    store.init( storeConfig );
     logger.info("...initialized the store successfully !");
 
     var confirmTable = (table, callback) => {

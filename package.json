@@ -1,6 +1,6 @@
 {
   "name": "@jtviegas/store-functions",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "functions for a data store api",
   "main": "index.js",
   "scripts": {
