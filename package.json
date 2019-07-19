@@ -25,7 +25,7 @@
     "node": ">=4.2.4"
   },
   "dependencies": {
-    "@jtviegas/dyndbstore": "^1.0.5",
+    "@jtviegas/dyndbstore": "^1.0.6",
     "winston": "^3.2.1"
   },
   "devDependencies": {
