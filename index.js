@@ -37,7 +37,7 @@ const storeFunctions = (config) => {
             else {
                 if( event.pathParameters && event.pathParameters.entity ) {
                     if( event.pathParameters.id )
-                        service.entityRetrieval(event.pathParameters.entity, event.pathParameters.id, done);
+                        service.entityRetrieval(event.pathParameters.entity, parseInt(event.pathParameters.id), done);
                     else
                         service.entitiesRetrieval(event.pathParameters.entity, done);
                 }
