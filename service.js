@@ -68,14 +68,9 @@ const service_module = (config) => {
         confirmTable(table, (e) => {
             if(e)
                 callback(e);
-            else{
-                store.getObjs(table, (e,d)=>{
-                    if(e)
-                        callback(e);
-                    else
-                        callback(null, d);
-                });
-            }
+            else
+                store.getObjs(table, callback);
+
         });
         logger.debug("[entitiesRetrieval|out]");
     }

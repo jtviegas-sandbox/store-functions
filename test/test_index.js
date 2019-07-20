@@ -75,7 +75,8 @@ describe('index tests', function() {
                 if(e)
                     done(e);
                 else {
-                    expect(d.length).to.equal(config.TEST_ITERATIONS);
+                    let r=JSON.parse(d.body);
+                    expect(r.length).to.equal(config.TEST_ITERATIONS);
                     done(null);
                 }
             });
@@ -97,7 +98,8 @@ describe('index tests', function() {
                 if(e)
                     done(e);
                 else {
-                    expect(d).to.eql({'id': 2, 'description': 'xpto' + 2, 'category': 'a' + 2});
+                    let r=JSON.parse(d.body);
+                    expect(r).to.eql({'id': 2, 'description': 'xpto' + 2, 'category': 'a' + 2});
                     done();
                 }
             });
