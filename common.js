@@ -1,6 +1,6 @@
 'use strict';
 const winston = require('winston');
-const ServerError = require("./ServerError");
+const ServerError = require('@jtviegas/jscommons').ServerError;
 
 const common_module = function(config){
 

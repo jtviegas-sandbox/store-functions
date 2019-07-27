@@ -1,7 +1,7 @@
 'use strict';
 
 const winston = require('winston');
-const ServerError = require("./ServerError");
+const ServerError = require('@jtviegas/jscommons').ServerError;
 
 const storeFunctions = (config) => {
 
