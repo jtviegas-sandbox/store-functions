@@ -1,6 +1,6 @@
 {
   "name": "@jtviegas/store-functions",
-  "version": "0.0.9",
+  "version": "1.0.0",
   "description": "functions for a data store api",
   "main": "index.js",
   "scripts": {
@@ -25,8 +25,8 @@
     "node": ">=4.2.4"
   },
   "dependencies": {
-    "@jtviegas/dyndbstore": "^1.0.6",
-    "@jtviegas/jscommons": "0.0.1",
+    "@jtviegas/dyndbstore": "^1.0.11",
+    "@jtviegas/jscommons": "0.0.12",
     "winston": "^3.2.1"
   },
   "devDependencies": {

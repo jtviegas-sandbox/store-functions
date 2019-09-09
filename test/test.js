@@ -2,28 +2,48 @@
 
 
 const winston = require('winston');
-const config = require("./config");
-const logger = winston.createLogger(config['WINSTON_CONFIG']);
+const commons = require('@jtviegas/jscommons').commons;
+
+let config = {
+    DYNDBSTORE_AWS_REGION: 'eu-west-1'
+    , DYNDBSTORE_AWS_ACCESS_KEY_ID: process.env.ACCESS_KEY_ID
+    , DYNDBSTORE_AWS_ACCESS_KEY: process.env.ACCESS_KEY
+    , DYNDBSTORE_AWS_DB_ENDPOINT: "http://localhost:8000"
+
+    , STOREFUNCTIONS_AWS_REGION: 'eu-west-1'
+    , STOREFUNCTIONS_AWS_DB_ENDPOINT: "http://localhost:8000"
+    , STOREFUNCTIONS_AWS_ACCESS_KEY_ID: process.env.ACCESS_KEY_ID
+    , STOREFUNCTIONS_AWS_ACCESS_KEY: process.env.ACCESS_KEY
+    , STOREFUNCTIONS_ENTITY_LIST: 'item, part'
+    , STOREFUNCTIONS_TENANT: 'split4ever'
+    , STOREFUNCTIONS_ENV_LIST: 'production,development'
+};
+
+const logger = winston.createLogger(commons.getDefaultWinstonConfig());
+
 const store = require('@jtviegas/dyndbstore');
 const chai = require('chai');
 const expect = chai.expect;
 const index = require("..")(config);
-const ENTITY = 'item';
+
 const service = require("../service")(config);
-const common = require("../common")(config);
+
+const ENTITY = 'item';
+const ENV = 'development';
+const TEST_ITERATIONS = 6;
+
 
 describe('index tests', function() {
     this.timeout(50000);
-    let table = common.tableFromEntity(ENTITY);
+    let table = service.getTableFromEntity(ENTITY, ENV);
 
     before(function(done) {
         logger.info("[before|in]");
-        store.init({ apiVersion: config.DB_API_VERSION , region: config.DB_API_REGION
-            , endpoint: config.DB_ENDPOINT, accessKeyId: process.env.DB_API_ACCESS_KEY_ID , secretAccessKey: process.env.DB_API_ACCESS_KEY } );
+        store.init(config);
 
         let items = [];
         let i = 0;
-        while (i < (config.TEST_ITERATIONS)){
+        while (i < (TEST_ITERATIONS)){
             items.push( {'id': i, 'description': 'xpto' + i, 'category': 'a' + i} );
             i++;
         }
@@ -70,13 +90,16 @@ describe('index tests', function() {
                 , pathParameters: {
                     entity: ENTITY
                 }
+                , queryStringParameters: {
+                    env: ENV
+                }
             };
             index.handler(event, context, (e,d)=>{
                 if(e)
                     done(e);
                 else {
                     let r=JSON.parse(d.body);
-                    expect(r.length).to.equal(config.TEST_ITERATIONS);
+                    expect(r.length).to.equal(TEST_ITERATIONS);
                     done(null);
                 }
             });
@@ -92,6 +115,9 @@ describe('index tests', function() {
                 , pathParameters: {
                     entity: ENTITY
                     , id: 2
+                }
+                , queryStringParameters: {
+                    env: ENV
                 }
             };
             index.handler(event, context, (e,d)=>{

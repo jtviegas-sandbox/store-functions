@@ -10,21 +10,47 @@ functions for a data store api
   
 ## Usage
 
-- depends on winston, thus it needs a logger configuration being handed over:
-```
-const logger = winston.createLogger(config['WINSTON_CONFIG']);
-```
-- depends on '@jtviegas/dyndbstore' thus it needs the dynamoDb config being handed over too:
-```
-const store = require('@jtviegas/dyndbstore');
-...
-store.init({ apiVersion: config.DB_API_VERSION , region: config.DB_API_REGION , endpoint: config.DB_ENDPOINT
-        , accessKeyId: config.DB_API_ACCESS_KEY_ID , secretAccessKey: config.DB_API_ACCESS_KEY } );
-```
-- check `test_index.js` for usage:
-```
-const index = require("..")(config);
-```
+### required environment variables or configuration properties
+  - STOREFUNCTIONS_AWS_REGION
+  - STOREFUNCTIONS_AWS_DB_ENDPOINT - optional, used for local testing;
+  - STOREFUNCTIONS_AWS_ACCESS_KEY_ID
+  - STOREFUNCTIONS_AWS_ACCESS_KEY
+  - STOREFUNCTIONS_ENTITY_LIST
+  - STOREFUNCTIONS_TENANT
+  - STOREFUNCTIONS_ENV_LIST
+
+### code snippet example
+
+    let config = {
+        STOREFUNCTIONS_AWS_REGION: 'eu-west-1'
+        , STOREFUNCTIONS_AWS_ACCESS_KEY_ID: process.env.ACCESS_KEY_ID
+        , STOREFUNCTIONS_AWS_ACCESS_KEY: process.env.ACCESS_KEY
+        , STOREFUNCTIONS_ENTITY_LIST: 'item, part'
+        , STOREFUNCTIONS_TENANT: 'xpto'
+        , STOREFUNCTIONS_ENV_LIST: 'production,development'
+    };
+
+    const functions = require('@jtviegas/store-functions')(config);
+    let event = {
+                    httpMethod: 'GET'
+                    , pathParameters: {
+                        entity: 'item'
+                    }
+                    , queryStringParameters: {
+                        env: 'development'
+                    }
+                };
+    functions.handler(event, context, (e,d)=>{
+        if(e)
+            done(e);
+        else {
+            let r=JSON.parse(d.body);
+            expect(r.length).to.equal(A_NUMBER);
+            done(null);
+        }
+    });
+
+Check the test folder in source tree.
 
 ## Tests
 
@@ -32,4 +58,4 @@ const index = require("..")(config);
 
 ## Contributing
 
-https://github.com/jtviegas/store-functions
+just help yourself and submit a pull request

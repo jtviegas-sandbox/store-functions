@@ -1,21 +1,33 @@
 'use strict';
 const winston = require('winston');
+const commons = require('@jtviegas/jscommons').commons;
+const ServerError = require('@jtviegas/jscommons').ServerError;
 const store = require('@jtviegas/dyndbstore');
 
 const service_module = (config) => {
 
-    const logger = winston.createLogger(config['WINSTON_CONFIG']);
+    const logger = winston.createLogger(commons.getDefaultWinstonConfig());
     logger.info("...initializing service module...");
-    const common = require("./common")(config);
+    store.init( config );
 
-    let storeConfig = { apiVersion: config.DB_API_VERSION , region: config.DB_API_REGION
-        , accessKeyId: config.DB_API_ACCESS_KEY_ID , secretAccessKey: config.DB_API_ACCESS_KEY };
+    var getTableFromEntity = (entity, env) => {
+        logger.info("[getTableFromEntity|in] (%s,%s)", entity, env);
 
-    if( config.DB_ENDPOINT )
-        storeConfig['endpoint'] = config.DB_ENDPOINT;
+        if( -1 === config.STOREFUNCTIONS_ENTITY_LIST.indexOf(entity) )
+            throw new ServerError('!!! table not enabled: ' + entity + ' !!!', 400);
 
-    store.init( storeConfig );
-    logger.info("...initialized the store successfully !");
+        let result = `${config.STOREFUNCTIONS_TENANT}_${entity}`;
+        if (null !== env){
+            if( -1 === config.STOREFUNCTIONS_ENV_LIST.indexOf(env) )
+                throw new ServerError('!!! table not enabled: ' + entity + ' !!!', 400);
+            result += '_' + env;
+        }
+
+        logger.info("[getTableFromEntity|out] => %s", result);
+        return result;
+    }
+
+
 
     var confirmTable = (table, callback) => {
         logger.debug("[confirmTable|in] (%s)", table);
@@ -41,10 +53,10 @@ const service_module = (config) => {
     }
 
 
-    var entityRetrieval = (entity, id, callback) => {
-        logger.debug("[entityRetrieval|in] (%s,%s)", entity, id);
+    var entityRetrieval = (entity, id, env, callback) => {
+        logger.debug("[entityRetrieval|in] (%s,%s,%s)", entity, id, env);
 
-        let table = common.tableFromEntity(entity);
+        let table = getTableFromEntity(entity, env);
 
         confirmTable(table, (e) => {
             if(e)
@@ -61,9 +73,9 @@ const service_module = (config) => {
         logger.debug("[entityRetrieval|out]");
     }
 
-    var entitiesRetrieval = (entity, callback) => {
-        logger.debug("[entitiesRetrieval|in] (%s)", entity);
-        let table = common.tableFromEntity(entity);
+    var entitiesRetrieval = (entity, env, callback) => {
+        logger.debug("[entitiesRetrieval|in] (%s,%s)", entity, env);
+        let table = getTableFromEntity(entity, env);
 
         confirmTable(table, (e) => {
             if(e)
@@ -80,6 +92,7 @@ const service_module = (config) => {
     return {
         entityRetrieval: entityRetrieval
         , entitiesRetrieval: entitiesRetrieval
+        , getTableFromEntity: getTableFromEntity
         , confirmTable: confirmTable
     };
     
