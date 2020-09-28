@@ -25,15 +25,15 @@
     "node": ">=4.2.4"
   },
   "dependencies": {
-    "@jtviegas/dyndbstore": "^1.0.11",
-    "@jtviegas/jscommons": "0.0.12",
+    "@jtviegas/dyndbstore": "latest",
+    "@jtviegas/jscommons": "latest",
     "winston": "^3.2.1"
   },
   "devDependencies": {
-    "aws-sdk": "^2.493.0",
+    "aws-sdk": "^2.572.0",
     "chai": "^4.2.0",
-    "coveralls": "^3.0.5",
+    "coveralls": "^3.0.7",
     "istanbul": "^0.4.5",
-    "mocha": "^6.1.4"
+    "mocha": "^6.2.2"
   }
 }

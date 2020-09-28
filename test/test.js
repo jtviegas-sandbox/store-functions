@@ -8,12 +8,17 @@ let config = {
     DYNDBSTORE_AWS_REGION: 'eu-west-1'
     , DYNDBSTORE_AWS_ACCESS_KEY_ID: process.env.ACCESS_KEY_ID
     , DYNDBSTORE_AWS_ACCESS_KEY: process.env.ACCESS_KEY
-    , DYNDBSTORE_AWS_DB_ENDPOINT: "http://localhost:8000"
+    , DYNDBSTORE_TEST: {
+        store_endpoint: 'http://localhost:8000'
+    }
 
     , STOREFUNCTIONS_AWS_REGION: 'eu-west-1'
-    , STOREFUNCTIONS_AWS_DB_ENDPOINT: "http://localhost:8000"
+    , STOREFUNCTIONS_TEST: {
+        store_endpoint: 'http://localhost:8000'
+    }
     , STOREFUNCTIONS_AWS_ACCESS_KEY_ID: process.env.ACCESS_KEY_ID
     , STOREFUNCTIONS_AWS_ACCESS_KEY: process.env.ACCESS_KEY
+
     , STOREFUNCTIONS_ENTITY_LIST: 'item, part'
     , STOREFUNCTIONS_TENANT: 'split4ever'
     , STOREFUNCTIONS_ENV_LIST: 'production,development'
